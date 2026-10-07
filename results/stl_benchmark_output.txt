@@ -1,0 +1,42 @@
+test STL files written to results/test_meshes
+
+=== A. STL stripline vs parametric stripline (same solver settings) ===
+Recognised structure
+  propagation axis : z (length 1000.000 mm), cross-section plane at z = 500.000 mm
+  in-plane axes    : u=x, v=y; domain 510 x 215 mm (PEC box), raster 202x86 cells
+  bodies:
+    stripline_shield         -> ground   [auto: closed outline enclosing all other bodies]  raster area error 0.00 %
+    stripline_strip          -> conductor, group 1   [auto: default]  raster area error 0.00 %
+  translation invariance along z: max section change 0.00 % (uniform)
+Z0: STL 51.027 Ohm, parametric 51.027 Ohm
+fc, MHz  STL: 299.33, 387.98, 599.37, 695.61, 856.33
+fc, MHz  par: 299.33, 387.98, 599.37, 695.60, 856.33
+
+=== B. STL microstrip (substrate eps_r=9.8 given by the user) vs parametric ===
+Recognised structure
+  propagation axis : z (length 50.000 mm), cross-section plane at z = 25.000 mm
+  in-plane axes    : u=x, v=y; domain 44 x 28 mm (PEC box), raster 204x133 cells
+  bodies:
+    microstrip_shield        -> ground   [auto: closed outline enclosing all other bodies]  raster area error 0.00 %
+    microstrip_substrate     -> dielectric, eps_r=9.8   [user]  raster area error 0.00 %
+    microstrip_strip         -> conductor, group 1   [auto: default]  raster area error 0.00 %
+  translation invariance along z: max section change 0.00 % (uniform)
+quasi-TEM: STL eps_eff=6.3796, Z0=49.544 | parametric eps_eff=6.3748, Z0=49.604
+fc, GHz  STL: 3.672, 6.231, 7.190   par: 3.672, 6.230, 7.189
+
+=== C. Round coax (outer r=7.5, inner r=3 mm): curved outlines, analytic Z0 ===
+analytic Z0 = 54.939 Ohm
+  raster_dx=0.2: grid 90x90, Z0=54.160 Ohm (-1.42 %), max raster area error 1.458 %, 0.3 s
+  raster_dx=0.1: grid 180x180, Z0=54.813 Ohm (-0.23 %), max raster area error 0.240 %, 0.7 s
+  raster_dx=0.05: grid 360x360, Z0=54.878 Ohm (-0.11 %), max raster area error 0.047 %, 3.7 s
+
+=== D. Round waveguide r=10 mm: cutoffs vs Bessel zeros ===
+  raster_dx=0.2: TE11 8.7799 (-0.06%), TE11 8.7799 (-0.06%), TM01 11.5068 (+0.28%), TE21 14.5241 (-0.33%), TE21 14.5500 (-0.16%), TE01 18.3101 (+0.15%)
+  raster_dx=0.1: TE11 8.7731 (-0.14%), TE11 8.7731 (-0.14%), TM01 11.4790 (+0.04%), TE21 14.5329 (-0.27%), TE21 14.5461 (-0.18%), TE01 18.2780 (-0.02%)
+  raster_dx=0.05: TE11 8.7798 (-0.06%), TE11 8.7798 (-0.06%), TM01 11.4774 (+0.03%), TE21 14.5523 (-0.14%), TE21 14.5630 (-0.07%), TE01 18.2819 (-0.00%)
+
+=== E. Recognition checks ===
+no enclosure -> no enclosure body in the model: added a PEC box with 140 mm padding around the structure
+dielectric without eps_r -> body 'microstrip_substrate' looks like a dielectric but eps_r is unknown: pass roles={'microstrip_substrate': 'dielectric:<eps_r>'}
+tapered body -> cross-section changes along the axis: a 2D mode analysis is valid only for the chosen plane (max change 100 %)
+forced wrong axis -> axis x | cross-section changes along the axis: a 2D mode analysis is valid only; no enclosure body in the model: added a PEC box with 500 mm padding ar

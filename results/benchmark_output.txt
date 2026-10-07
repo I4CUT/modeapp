@@ -1,0 +1,90 @@
+=== 1. Rectangular waveguide 22.86x10.16 mm: cutoff numerical vs analytical ===
+TE10: analytic 6.5571 GHz, numeric 6.5559 GHz, error -0.019 %
+TE20: analytic 13.1143 GHz, numeric 13.1041 GHz, error -0.078 %
+TE01: analytic 14.7536 GHz, numeric 14.7398 GHz, error -0.093 %
+TE11: analytic 16.1451 GHz, numeric 16.1320 GHz, error -0.081 %
+TM11: analytic 16.1451 GHz, numeric 16.1320 GHz, error -0.081 %
+
+=== 2. Symmetric stripline (W=500, H=205, strip 280 x 1 mm), real strip thickness ===
+dx=5.0, edge_dx=None, grid 100x43: Z0=51.416 Ohm; fc, MHz: 299.3(even/odd), 385.4(odd/even), 599.3(odd/odd), 692.8(even/even)
+dx=5.0, edge_dx=0.5, grid 120x53: Z0=51.046 Ohm; fc, MHz: 299.3(even/odd), 387.8(odd/even), 599.3(odd/odd), 695.3(even/even)
+dx=2.5, edge_dx=0.5, grid 212x89: Z0=51.027 Ohm; fc, MHz: 299.3(even/odd), 388.0(odd/even), 599.4(odd/odd), 695.6(even/even)
+dx=2.5, edge_dx=0.25, grid 220x95: Z0=51.003 Ohm; fc, MHz: 299.3(even/odd), 388.1(odd/even), 599.4(odd/odd), 695.7(even/even)
+
+Mode | Type      | fc, MHz   | Symmetry (x/y) | eps_eff | Z0, Ohm | Confidence
+   0 | TEM       |      0.00 | even/even      |   1.000 |   51.03 | High
+   1 | TE        |    299.33 | even/odd       |       - |       - | High
+   2 | TE        |    387.98 | odd/even       |       - |       - | High
+   3 | TE        |    599.37 | odd/odd        |       - |       - | High
+   4 | TE        |    695.60 | even/even      |       - |       - | High
+   5 | TE        |    856.33 | odd/even       |       - |       - | High
+   6 | TE        |    899.67 | even/odd       |       - |       - | High
+   7 | TE        |   1022.85 | even/even      |       - |       - | High
+   8 | TE        |   1199.31 | odd/odd        |       - |       - | High
+  mode 0 TEM           0.0 MHz -> YES: Symmetry compatible
+  mode 1 TE          299.3 MHz -> NO: Symmetry mismatch along y (mode odd, source even)
+  mode 2 TE          388.0 MHz -> NO: Symmetry mismatch along x (mode odd, source even)
+  mode 3 TE          599.4 MHz -> NO: Symmetry mismatch along x (mode odd, source even)
+  mode 4 TE          695.6 MHz -> YES: Symmetry compatible
+  mode 5 TE          856.3 MHz -> NO: Symmetry mismatch along x (mode odd, source even)
+  mode 6 TE          899.7 MHz -> NO: Symmetry mismatch along y (mode odd, source even)
+  mode 7 TE         1022.9 MHz -> YES: Symmetry compatible
+  mode 8 TE         1199.3 MHz -> NO: Symmetry mismatch along x (mode odd, source even)
+First higher mode 299.3 MHz; first excitable 695.6 MHz; single-mode range 10-299.3 MHz, with 20% margin 10-239.5 MHz
+Cohn thin strip, no side walls: 52.15 Ohm
+Exact check (wide box 2000 mm, zero-thickness strip) Z0=52.211 Ohm vs Cohn 52.154 Ohm (+0.11 %)
+Full-vector @100 MHz: neff=1.00000 (TEM => 1), Z_PI=50.90, Z_PV=50.90, Z_VI=50.90 Ohm
+
+=== 3. Rectangular guide 22.86x10.16 loaded with eps_r=4 slab (t=8 mm, side wall): analytic LSE/LSM ===
+cutoffs, GHz   numeric (scalar FV) vs analytic:
+  LSE_1,0: analytic 4.7983, numeric 4.7982 (TE-like), error -0.002 %
+  LSM_1,1: analytic 8.4755, numeric 8.4750 (TE-like), error -0.006 %
+  LSE_2,0: analytic 9.8347, numeric 9.8341 (TE-like), error -0.006 %
+  LSE_1,1: analytic 9.9763, numeric 9.9755 (TM-like), error -0.008 %
+beta @10 GHz, full-vector error vs analytic, by mesh:
+  dx=0.5: LSE_2,0 -0.01%, LSM_1,1 +0.22%, LSE_1,0 +2.92%, LSE_1,1 +10.63%
+  dx=0.25: LSE_2,0 -0.00%, LSM_1,1 +0.06%, LSE_1,0 +0.73%, LSE_1,1 +2.65%
+  dx=0.125: LSE_2,0 -0.00%, LSM_1,1 +0.01%, LSE_1,0 +0.19%, LSE_1,1 +0.77%
+
+=== 4. Microstrip (h=1 mm, eps_r=9.8, t=35 um): static solver vs Hammerstad-Jensen (open, t=0) ===
+  w/h=0.5, box 20x12 mm: eps_eff=5.974 (H-J 6.324), Z0=66.93 Ohm (H-J 66.34)
+  w/h=0.5, box 40x24 mm: eps_eff=5.994 (H-J 6.324), Z0=67.06 Ohm (H-J 66.34)
+  w/h=0.5, box 80x48 mm: eps_eff=5.999 (H-J 6.324), Z0=67.10 Ohm (H-J 66.34)
+  w/h=1.0, box 20x12 mm: eps_eff=6.347 (H-J 6.620), Z0=49.48 Ohm (H-J 49.21)
+  w/h=1.0, box 40x24 mm: eps_eff=6.375 (H-J 6.620), Z0=49.60 Ohm (H-J 49.21)
+  w/h=1.0, box 80x48 mm: eps_eff=6.382 (H-J 6.620), Z0=49.64 Ohm (H-J 49.21)
+  w/h=2.0, box 20x12 mm: eps_eff=6.845 (H-J 7.063), Z0=33.57 Ohm (H-J 33.63)
+  w/h=2.0, box 40x24 mm: eps_eff=6.888 (H-J 7.063), Z0=33.69 Ohm (H-J 33.63)
+  w/h=2.0, box 80x48 mm: eps_eff=6.898 (H-J 7.063), Z0=33.72 Ohm (H-J 33.63)
+static vs full-vector @1 GHz, mesh refinement (edge singularity -> slow convergence):
+  dx=0.5, edge=0.1: static eps_eff=6.324, Z0=50.26 | vector neff^2=6.389, Z_PI=46.82, Z_PV=47.19, Z_VI=47.01
+  dx=0.25, edge=0.05: static eps_eff=6.349, Z0=49.30 | vector neff^2=6.444, Z_PI=47.38, Z_PV=47.75, Z_VI=47.57
+  dx=0.2, edge=0.025: static eps_eff=6.369, Z0=48.89 | vector neff^2=6.476, Z_PI=47.58, Z_PV=47.95, Z_VI=47.77
+static edge-refinement trend, box 40x24:
+  dx=0.5, edge=0.05: eps_eff=6.3748, Z0=49.604 Ohm
+  dx=0.5, edge=0.02: eps_eff=6.4051, Z0=49.044 Ohm
+  dx=0.5, edge=0.01: eps_eff=6.4132, Z0=48.856 Ohm
+  dx=0.25, edge=0.005: eps_eff=6.4174, Z0=48.698 Ohm
+dispersion of the fundamental mode:
+  f, GHz | neff^2 | vp/c  | vg/c  | Z_PI  | Z_PV  | Z_VI
+     0.5 |  6.428 | 0.394 | 0.393 | 47.42 | 47.52 | 47.47
+     1.0 |  6.444 | 0.394 | 0.393 | 47.38 | 47.75 | 47.57
+     2.0 |  6.498 | 0.392 | 0.388 | 47.33 | 48.46 | 47.89
+     4.0 |  6.638 | 0.388 | 0.380 | 47.51 | 50.16 | 48.82
+     6.0 |  6.788 | 0.384 | 0.371 | 47.90 | 52.07 | 49.94
+     8.0 |  6.943 | 0.380 | 0.363 | 48.45 | 54.14 | 51.22
+    10.0 |  7.098 | 0.375 | 0.356 | 49.18 | 56.28 | 52.61
+    12.0 |  7.251 | 0.371 | 0.350 | 50.10 | 58.39 | 54.09
+    14.0 |  7.400 | 0.368 | 0.347 | 51.19 | 60.44 | 55.62
+
+=== 5. Coax scaling check and CPW demo ===
+square coax 20x20 / 8x8 mm: Z0(air)=49.95, Z0(eps_r=2)=35.32, ratio=1.4142 (sqrt2=1.4142)
+Mode | Type      | fc, MHz   | Symmetry (x/y) | eps_eff | Z0, Ohm | Confidence
+   0 | quasi-TEM |      0.00 | even/n/a       |   5.668 |   43.07 | High
+   1 | TE-like   |   2523.18 | even/n/a       |       - |       - | High
+   2 | TE-like   |   2541.79 | odd/n/a        |       - |       - | High
+   3 | TE-like   |   7336.81 | odd/n/a        |       - |       - | High
+   4 | TE-like   |   7478.36 | even/n/a       |       - |       - | High
+
+=== 6. Mode atlases ===
+saved atlas CSV/PNG to results
